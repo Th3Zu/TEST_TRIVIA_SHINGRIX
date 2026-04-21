@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIVIA SHINGRIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -79,9 +82,111 @@
         }
 
         .title {
-            font-size: 32px;
+            font-family: "Oswald", sans-serif;
+            font-style: italic;
+            font-size: 5vw;
             margin-bottom: 40px;
             font-weight: bold;
+            position: relative;
+            color: rgb(255, 255, 255);
+            animation: glitch 5s 5s infinite;
+        }
+
+        .title::before {
+            content: attr(data-text);
+            position: absolute;
+            left: -2px;
+            text-shadow: -5px 0 magenta;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            overflow: hidden;
+            top: 0;
+            animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+            width: 100%;
+        }
+
+        .title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            text-shadow: -5px 0 lightgreen;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            overflow: hidden;
+            top: 0;
+            animation: noise-2 3s linear infinite alternate-reverse, glitch 5s 5s infinite;
+            width: 100%;
+        }
+
+        @keyframes glitch {
+            1% {
+                transform: rotateX(10deg) skewX(90deg);
+            }
+            2% {
+                transform: rotateX(0deg) skewX(0deg);
+            }
+        }
+
+        @keyframes noise-1 {
+            0% { clip-path: inset(25% 0 40% 0); }
+            5% { clip-path: inset(15% 0 60% 0); }
+            10% { clip-path: inset(45% 0 20% 0); }
+            15% { clip-path: inset(35% 0 30% 0); }
+            20% { clip-path: inset(55% 0 10% 0); }
+            25% { clip-path: inset(20% 0 50% 0); }
+            30% { clip-path: inset(60% 0 15% 0); }
+            35% { clip-path: inset(30% 0 35% 0); }
+            40% { clip-path: inset(10% 0 65% 0); }
+            45% { clip-path: inset(50% 0 25% 0); }
+            50% { clip-path: inset(40% 0 30% 0); }
+            55% { clip-path: inset(25% 0 45% 0); }
+            60% { clip-path: inset(35% 0 35% 0); }
+            65% { clip-path: inset(20% 0 55% 0); }
+            70% { clip-path: inset(45% 0 20% 0); }
+            75% { clip-path: inset(30% 0 40% 0); }
+            80% { clip-path: inset(60% 0 10% 0); }
+            85% { clip-path: inset(15% 0 60% 0); }
+            90% { clip-path: inset(50% 0 25% 0); }
+            95% { clip-path: inset(25% 0 50% 0); }
+            100% { clip-path: inset(35% 0 30% 0); }
+        }
+
+        @keyframes noise-2 {
+            0% { clip-path: inset(30% 0 35% 0); }
+            5% { clip-path: inset(20% 0 50% 0); }
+            10% { clip-path: inset(50% 0 25% 0); }
+            15% { clip-path: inset(40% 0 30% 0); }
+            20% { clip-path: inset(25% 0 45% 0); }
+            25% { clip-path: inset(35% 0 35% 0); }
+            30% { clip-path: inset(20% 0 55% 0); }
+            35% { clip-path: inset(45% 0 20% 0); }
+            40% { clip-path: inset(30% 0 40% 0); }
+            45% { clip-path: inset(60% 0 10% 0); }
+            50% { clip-path: inset(15% 0 60% 0); }
+            55% { clip-path: inset(50% 0 25% 0); }
+            60% { clip-path: inset(25% 0 50% 0); }
+            65% { clip-path: inset(35% 0 30% 0); }
+            70% { clip-path: inset(20% 0 50% 0); }
+            75% { clip-path: inset(40% 0 30% 0); }
+            80% { clip-path: inset(30% 0 40% 0); }
+            85% { clip-path: inset(60% 0 10% 0); }
+            90% { clip-path: inset(15% 0 60% 0); }
+            95% { clip-path: inset(50% 0 25% 0); }
+            100% { clip-path: inset(25% 0 45% 0); }
+        }
+
+        .title-glow {
+            text-shadow: 0 0 100px rgb(223, 191, 191);
+            color: transparent;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: "Oswald", sans-serif;
+            font-style: italic;
+            font-size: 5vw;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            z-index: -1;
         }
 
         .subtitle {
@@ -132,6 +237,7 @@
             background: white;
             color: #D71920;
             margin-top: 20px;
+            margin-bottom: 100px;
         }
 
         .btn-start:hover {
@@ -183,6 +289,19 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        .option.shake {
+            animation: shake 0.6s ease-in-out;
+        }
+
+
 
         .question-text {
             font-size: 20px;
@@ -264,6 +383,57 @@
         .result-header {
             text-align: center;
             margin-bottom: 30px;
+        }
+
+        .result-header h2 {
+            font-family: "Oswald", sans-serif;
+            font-style: italic;
+            font-size: 2.5vw;
+            font-weight: bold;
+            position: relative;
+            color: rgb(255, 255, 255);
+            animation: glitch 5s 5s infinite;
+            margin: 0;
+        }
+
+        .result-header h2::before {
+            content: attr(data-text);
+            position: absolute;
+            left: -2px;
+            text-shadow: -5px 0 magenta;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            overflow: hidden;
+            top: 0;
+            animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+            width: 100%;
+        }
+
+        .result-header h2::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            text-shadow: -5px 0 lightgreen;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            overflow: hidden;
+            top: 0;
+            animation: noise-2 3s linear infinite alternate-reverse, glitch 5s 5s infinite;
+            width: 100%;
+        }
+
+        .result-header-glow {
+            text-shadow: 0 0 100px rgb(223, 191, 191);
+            color: transparent;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: "Oswald", sans-serif;
+            font-style: italic;
+            font-size: 2.5vw;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            z-index: -1;
         }
 
         .result-score {
@@ -425,39 +595,113 @@
             text-align: justify;
         }
 
-        /* FONDO CON DIAGONALES DESLIZANTES */
+        /* FONDO CON CANVAS DE PARTÍCULAS */
         html {
             height: 100%;
         }
 
-        .bg {
-            animation: slide 3s ease-in-out infinite alternate;
-            background-image: linear-gradient(-60deg, #D71920 50%, #9E0B0F 50%);
-            bottom: 0;
-            left: -50%;
-            opacity: 0.15;
+        canvas {
+            display: block;
             position: fixed;
-            right: -50%;
             top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -2;
         }
 
-        .bg2 {
-            animation-direction: alternate-reverse;
-            animation-duration: 4s;
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(10, 10, 30, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: white;
+            font-size: 13px;
+            display: none;
+            gap: 16px;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            flex-wrap: wrap;
         }
 
-        .bg3 {
-            animation-duration: 5s;
+        .controls button,
+        .controls label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        @keyframes slide {
-            0% {
-                transform: translateX(-25%);
-            }
-            100% {
-                transform: translateX(25%);
-            }
+        .controls button {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .controls input[type="range"] {
+            width: 140px;
+        }
+
+        /* Circular Angle Knob */
+        .angle-knob {
+            width: 72px;
+            height: 72px;
+            position: relative;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .angle-knob:active {
+            cursor: grabbing;
+        }
+
+        .angle-knob svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+        }
+
+        .angle-knob .knob-circle {
+            fill: none;
+            stroke: #4488ff;
+            stroke-width: 9;
+        }
+
+        .angle-knob .knob-indicator {
+            stroke: #4488ff;
+            stroke-width: 7;
+            stroke-linecap: round;
+        }
+
+        .angle-knob .center-dot {
+            fill: #000;
+            stroke: rebeccapurple;
+            stroke-width: 2;
+        }
+
+        .angle-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            pointer-events: none;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
         }
 
         @media (max-aspect-ratio: 9/16) {
@@ -473,16 +717,48 @@
     </style>
 </head>
 <body>
-    <div class="bg"></div>
-    <div class="bg bg2"></div>
-    <div class="bg bg3"></div>
+    <canvas id="canvas"></canvas>
+    <div class="controls">
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Reset Particles</button>
+        <label>
+            Particles: <span id="particleCount">3000</span>
+            <input type="range" id="particleSlider" min="500" max="10000" value="3000" step="500">
+        </label>
+        <label>
+            Trail fade:
+            <input type="range" id="fadeSlider" min="10" max="120" value="85" step="5">
+        </label>
+        <label title="Base speed in dark areas">
+            Dark speed: <span id="darkSpeedVal">1.1</span>
+            <input type="range" id="darkSpeed" min="0.5" max="8" value="1.1" step="0.1">
+        </label>
+        <label title="Speed in bright areas (slower)">
+            Bright speed: <span id="brightSpeedVal">0.6</span>
+            <input type="range" id="brightSpeed" min="0.1" max="3" value="0.6" step="0.05">
+        </label>
+        <label style="flex-direction: column; gap: 4px;">
+            <div class="angle-knob" id="angleKnob">
+                <svg viewBox="0 0 100 100">
+                    <circle class="knob-circle" cx="50" cy="50" r="42" />
+                    <line id="indicator" class="knob-indicator" x1="50" y1="50" x2="82" y2="50" />
+                    <circle class="center-dot" cx="50" cy="50" r="7" />
+                </svg>
+                <div class="angle-label" id="angleValue">0°</div>
+            </div>
+            <span style="font-size:11px; opacity:0.8;">Direction</span>
+        </label>
+    </div>
     <div class="container">
         <!-- PANTALLA DE INICIO -->
         <div id="startScreen" class="screen active">
             <div class="logo-header">
                 <img src="Logo Shingrix.png" alt="Shingrix Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
             </div>
-            <div class="title">TRIVIA SHINGRIX</div>
+            <div style="position: relative; width: 100%; text-align: center; margin-bottom: 40px;">
+                <div class="title-glow">TRIVIA</div>
+                <div class="title" data-text="TRIVIA">TRIVIA</div>
+            </div>
             <div class="subtitle">Demuestra tus conocimientos</div>
             
             <form id="nameForm" onsubmit="startTrivia(event)">
@@ -533,7 +809,10 @@
         <!-- PANTALLA DE RESULTADOS -->
         <div id="resultScreen" class="screen">
             <div class="result-header">
-                <h2>¡Trivia Completada!</h2>
+                <div style="position: relative; width: 100%; text-align: center;">
+                    <div class="result-header-glow">¡Trivia Completada!</div>
+                    <h2 data-text="¡Trivia Completada!">¡Trivia Completada!</h2>
+                </div>
             </div>
 
             <div style="text-align: center;">
@@ -683,15 +962,37 @@
             
             options.forEach(opt => opt.disabled = true);
 
-            if (index === question.correct) {
+            const isCorrect = index === question.correct;
+
+            if (isCorrect) {
                 options[index].classList.add("correct");
+                options[index].classList.add("shake");
                 score++;
+                
+                // Feedback visual con partículas
+                const fadeSlider = document.getElementById("fadeSlider");
+                const darkSpeedSlider = document.getElementById("darkSpeed");
+                const originalFade = fadeSlider.value;
+                const originalDarkSpeed = darkSpeedSlider.value;
+
+                // Cambiar valores para efecto visual
+                fadeSlider.value = 45; // Bajar trail fade
+                darkSpeedSlider.value = 5.5; // Subir dark speed
+                document.getElementById("darkSpeedVal").textContent = "5.5";
+
+                // Restaurar valores después de 1500ms
+                setTimeout(() => {
+                    fadeSlider.value = originalFade;
+                    darkSpeedSlider.value = originalDarkSpeed;
+                    document.getElementById("darkSpeedVal").textContent = parseFloat(originalDarkSpeed).toFixed(1);
+                }, 1500);
             } else {
                 options[index].classList.add("incorrect");
                 options[question.correct].classList.add("correct");
+                options[question.correct].classList.add("shake");
             }
 
-            answers.push(index === question.correct);
+            answers.push(isCorrect);
 
             setTimeout(() => {
                 currentQuestion++;
@@ -702,6 +1003,7 @@
                 }
             }, 1500);
         }
+
 
         function finishTrivia() {
             clearInterval(timerInterval);
@@ -763,6 +1065,220 @@
             document.getElementById("userName").value = "";
             document.getElementById("userName").focus();
         }
+
+        // ====================== PARTICLES BACKGROUND SYSTEM ======================
+        let userBase64SVG = "";
+        const demoSVG = `<svg xmlns='http://www.w3.org/2000/svg' height='1000' width='1000' viewbox='0 0 1000 1000'>
+            <path fill='#aaa' d='M 500 0 A 100 100 90 0 1 500 1000 A 100 100 90 0 1 500 0 M 500 300 A 100 100 90 0 0 500 700 A 100 100 90 0 0 500 300' />
+            <path fill='#ccc' d='M 200 0 H 800 L 500 500 Z M 500 100 A 100 100 90 0 0 500 300 A 100 100 90 0 0 500 100' />
+            <path fill='#ccc' d='M 500 500 L 800 1000 H 200 Z M 500 700 A 100 100 90 0 0 500 900 A 100 100 90 0 0 500 700' />
+            <path fill='#aaa' d='M 400 450 H 600 V 550 H 400 Z' />
+        </svg>`;
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d", { alpha: true });
+        let width = 0, height = 0;
+        let particles = [];
+        let brightnessGrid = [];
+        let cellSize = 8;
+        let cols = 0, rows = 0;
+        let img = new Image();
+        let isPaused = false;
+        let flowAngle = 0;
+
+        const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+            }
+            update() {
+                const col = Math.max(0, Math.min(cols - 1, Math.floor(this.x / cellSize)));
+                const row = Math.max(0, Math.min(rows - 1, Math.floor(this.y / cellSize)));
+                const brightness = brightnessGrid[row] ? brightnessGrid[row][col] : 0;
+                const darkSpeed = parseFloat(document.getElementById("darkSpeed").value) + randInt(-10, 10) / 10;
+                const brightSpeed = parseFloat(document.getElementById("brightSpeed").value);
+                const speed = darkSpeed * (1 - brightness) + brightSpeed * brightness;
+                const rad = (flowAngle * Math.PI) / 180;
+                this.x += Math.cos(rad) * speed;
+                this.y += Math.sin(rad) * speed;
+                if (this.x > width + 60) this.x = -60;
+                if (this.x < -60) this.x = width + 60;
+                if (this.y > height + 60) this.y = -60;
+                if (this.y < -60) this.y = height + 60;
+            }
+            draw() {
+                const alpha = Math.max(0.35, 1.8 - 3 * 0.35);
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = "#e0f0ff";
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = "#88ccff";
+                ctx.fillRect(this.x, this.y, 3, 3);
+                ctx.restore();
+            }
+        }
+
+        function computeBrightnessGrid() {
+            const off = document.createElement("canvas");
+            off.width = width;
+            off.height = height;
+            const octx = off.getContext("2d");
+            octx.drawImage(img, 0, 0, width, height);
+            const data = octx.getImageData(0, 0, width, height).data;
+            cols = Math.floor(width / cellSize);
+            rows = Math.floor(height / cellSize);
+            brightnessGrid = Array.from({ length: rows }, () => Array(cols).fill(0));
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    let sum = 0, count = 0;
+                    const sy = r * cellSize, sx = c * cellSize;
+                    const ey = Math.min(sy + cellSize, height);
+                    const ex = Math.min(sx + cellSize, width);
+                    for (let y = sy; y < ey; y++) {
+                        for (let x = sx; x < ex; x++) {
+                            const i = (y * width + x) * 4;
+                            const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                            sum += lum;
+                            count++;
+                        }
+                    }
+                    brightnessGrid[r][c] = count ? sum / count / 255 : 0;
+                }
+            }
+        }
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            if (img.complete) computeBrightnessGrid();
+        }
+
+        function animateParticles() {
+            if (isPaused) {
+                requestAnimationFrame(animateParticles);
+                return;
+            }
+            ctx.globalAlpha = parseFloat(document.getElementById("fadeSlider").value) / 1000;
+            ctx.fillStyle = "#05050f";
+            ctx.fillRect(0, 0, width, height);
+            ctx.globalAlpha = 1;
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        function setupAngleKnob() {
+            const knob = document.getElementById("angleKnob");
+            const indicator = document.getElementById("indicator");
+            const angleDisplay = document.getElementById("angleValue");
+            let isDragging = false;
+
+            function updateKnob(angleDeg) {
+                flowAngle = ((angleDeg % 360) + 360) % 360;
+                const rad = (flowAngle * Math.PI) / 180;
+                const len = 34;
+                const x2 = 50 + len * Math.cos(rad);
+                const y2 = 50 + len * Math.sin(rad);
+                indicator.setAttribute("x2", x2);
+                indicator.setAttribute("y2", y2);
+                angleDisplay.textContent = Math.round(flowAngle) + "°";
+            }
+
+            function getAngleFromEvent(e) {
+                const rect = knob.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const clientX = e.clientX !== undefined ? e.clientX : e.touches[0].clientX;
+                const clientY = e.clientY !== undefined ? e.clientY : e.touches[0].clientY;
+                let angle = (Math.atan2(clientY - cy, clientX - cx) * 180) / Math.PI;
+                return (angle + 360) % 360;
+            }
+
+            function startDrag(e) {
+                isDragging = true;
+                e.preventDefault();
+                const angle = getAngleFromEvent(e);
+                updateKnob(angle);
+            }
+
+            function duringDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const angle = getAngleFromEvent(e);
+                updateKnob(angle);
+            }
+
+            function endDrag() {
+                isDragging = false;
+            }
+
+            knob.addEventListener("mousedown", startDrag);
+            document.addEventListener("mousemove", duringDrag);
+            document.addEventListener("mouseup", endDrag);
+            knob.addEventListener("touchstart", startDrag, { passive: false });
+            document.addEventListener("touchmove", duringDrag, { passive: false });
+            document.addEventListener("touchend", endDrag);
+            updateKnob(270);
+        }
+
+        function initParticles() {
+            if (userBase64SVG.trim()) {
+                img.src = `data:image/svg+xml;base64,${userBase64SVG}`;
+            } else {
+                img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(demoSVG)}`;
+            }
+
+            window.addEventListener("resize", resizeCanvas);
+            document.getElementById("pauseBtn").addEventListener("click", () => {
+                isPaused = !isPaused;
+                document.getElementById("pauseBtn").textContent = isPaused ? "Resume" : "Pause";
+            });
+            document.getElementById("resetBtn").addEventListener("click", () => {
+                particles.forEach((p) => p.reset());
+            });
+
+            const pSlider = document.getElementById("particleSlider");
+            const pCount = document.getElementById("particleCount");
+            pSlider.addEventListener("input", () => {
+                const target = parseInt(pSlider.value);
+                pCount.textContent = target;
+                while (particles.length < target) particles.push(new Particle());
+                while (particles.length > target) particles.pop();
+            });
+
+            const darkSlider = document.getElementById("darkSpeed");
+            const brightSlider = document.getElementById("brightSpeed");
+            const darkVal = document.getElementById("darkSpeedVal");
+            const brightVal = document.getElementById("brightSpeedVal");
+            darkSlider.addEventListener("input", () => (darkVal.textContent = parseFloat(darkSlider.value).toFixed(1)));
+            brightSlider.addEventListener("input", () => (brightVal.textContent = parseFloat(brightSlider.value).toFixed(1)));
+
+            document.querySelectorAll('input[type="range"]').forEach((slider) => {
+                slider.addEventListener("touchstart", () => {}, { passive: true });
+            });
+
+            setupAngleKnob();
+
+            img.onload = () => {
+                resizeCanvas();
+                computeBrightnessGrid();
+                const target = parseInt(pSlider.value);
+                particles = [];
+                for (let i = 0; i < target; i++) particles.push(new Particle());
+                animateParticles();
+            };
+        }
+
+        initParticles();
     </script>
 </body>
 </html>
