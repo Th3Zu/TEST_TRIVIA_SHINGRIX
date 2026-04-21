@@ -793,7 +793,7 @@
         <!-- PANTALLA DE TRIVIA -->
         <div id="triviaScreen" class="screen">
             <div class="header">
-                <div class="question-number">Pregunta <span id="currentQuestion">1</span>/5</div>
+                <div class="question-number">Pregunta <span id="currentQuestion">1</span>/6</div>
                 <div class="timer" id="timer">⏱ 60s</div>
             </div>
 
@@ -817,7 +817,7 @@
 
             <div style="text-align: center;">
                 <div class="result-message">Tu puntuación:</div>
-                <div class="result-score" id="finalScore">0/5</div>
+                <div class="result-score" id="finalScore">0/6</div>
             </div>
 
             <div class="ranking-title">🏆 Ranking</div>
@@ -839,47 +839,56 @@
     <script>
         const questions = [
             {
-                question: "¿Cuál es la enfermedad que previene la vacuna SHINGRIX?",
+                question: "¿Qué virus es el causante del Herpes Zóster?",
+                options: [
+                    "Virus de la varicela zóster",
+                    "Herpesvirus humano",
+                    "Citomegalovirus"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué causa la reactivación del Virus Varicela Zóster (VVZ)?",
+                options: [
+                    "Estar expuesto a una persona con herpes zóster",
+                    "Deterioro o disminución de la inmunidad",
+                    "Co-infección con otro virus"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Cuál es la complicación más común del Herpes Zóster?",
                 options: [
                     "Varicela",
-                    "Herpes Zóster (Culebrilla)",
-                    "Influenza"
+                    "Herpes Zóster oftálmico",
+                    "Neuralgia post herpética (NPH)"
+                ],
+                correct: 2
+            },
+            {
+                question: "Entre las personas de 50 años o más, ¿Cuántas son portadoras o han estado expuestas al virus de la varicela zóster?",
+                options: [
+                    "50%",
+                    "89%",
+                    ">90%"
+                ],
+                correct: 2
+            },
+            {
+                question: "¿Cuáles son las probabilidades de que un evento de Herpes Zóster termine en neuralgia post herpética (NPH)?",
+                options: [
+                    "Hasta un 20%",
+                    "Hasta un 30%",
+                    "Hasta un 50%"
                 ],
                 correct: 1
             },
             {
-                question: "¿Cuántas dosis de SHINGRIX se recomiendan?",
+                question: "¿Cuáles son las probabilidades de que una persona desarrolle Herpes Zóster oftálmico (HZO)?",
                 options: [
-                    "Una sola dosis",
-                    "Dos dosis con 2-6 meses de separación",
-                    "Tres dosis en 6 meses"
-                ],
-                correct: 1
-            },
-            {
-                question: "¿A partir de qué edad se recomienda la vacuna SHINGRIX?",
-                options: [
-                    "A los 18 años",
-                    "A los 50 años",
-                    "A los 65 años"
-                ],
-                correct: 1
-            },
-            {
-                question: "¿Cuál es la eficacia de SHINGRIX contra el herpes zóster?",
-                options: [
-                    "Aproximadamente 50%",
-                    "Aproximadamente 90%",
-                    "Aproximadamente 70%"
-                ],
-                correct: 1
-            },
-            {
-                question: "¿SHINGRIX es una vacuna de virus vivo o inactivado?",
-                options: [
-                    "Virus vivo atenuado",
-                    "Virus inactivado",
-                    "Subunidad recombinante inactivada"
+                    "Hasta un 5%",
+                    "Hasta un 15%",
+                    "Hasta un 25%"
                 ],
                 correct: 2
             }
@@ -1028,7 +1037,7 @@
         }
 
         function displayResults() {
-            document.getElementById("finalScore").textContent = `${score}/5`;
+            document.getElementById("finalScore").textContent = `${score}/6`;
 
             const ranking = JSON.parse(localStorage.getItem("rankingShingrix")) || [];
             const rankingList = document.getElementById("rankingList");
@@ -1047,7 +1056,7 @@
                 div.innerHTML = `
                     <span class="ranking-position">#${index + 1}</span>
                     <span class="ranking-name">${entry.name}</span>
-                    <span class="ranking-score">${entry.score}/5</span>
+                    <span class="ranking-score">${entry.score}/6</span>
                 `;
 
                 rankingList.appendChild(div);
