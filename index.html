@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIVIA SHINGRIX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 1080 / 1920;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* PANTALLA DE INICIO */
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            padding: 30px;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease-in;
+            position: relative;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* INICIO */
+        #startScreen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            color: white;
+        }
+
+        .logo-header {
+            width: 300px !important;
+            height: 100px !important;
+            margin: 0 auto 20px;
+            background: rgba(46, 45, 45, 0.95)!important;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #D71920;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            font-size: 32px;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid white;
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-start {
+            background: white;
+            color: #D71920;
+            margin-top: 20px;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* PANTALLA DE TRIVIA */
+        #triviaScreen {
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -30px -30px 30px -30px;
+        }
+
+        .question-number {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer.warning {
+            color: #ff6b6b;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .option:hover {
+            border-color: #D71920;
+            background: rgba(215, 25, 32, 0.05);
+            transform: translateX(10px);
+        }
+
+        .option.selected {
+            border-color: #D71920;
+            background: #D71920;
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #51cf66;
+            background: #51cf66;
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #ff6b6b;
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .option:disabled {
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9E0B0F 0%, #D71920 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* PANTALLA DE RESULTADOS */
+        #resultScreen {
+            background: linear-gradient(135deg, #9E0B0F 0%, #D71920 100%);
+            color: white;
+            justify-content: flex-start;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .ranking-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .ranking-list {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-position {
+            font-weight: bold;
+            font-size: 16px;
+            min-width: 30px;
+        }
+
+        .ranking-name {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .ranking-score {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .ranking-item.highlight {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        .user-position {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+
+        .user-position-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .btn-restart {
+            background: white;
+            color: #D71920;
+            margin-top: 20px;
+        }
+
+        .btn-restart:hover {
+            transform: scale(1.05);
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* LOGO Y FOOTER */
+        .logo-header {
+            width: 120px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(51, 50, 50, 0.95);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #D71920;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            padding: 15px;
+            margin-top: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: justify;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dotted white;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .result-footer {
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            margin-top: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+            text-align: justify;
+        }
+
+        /* FONDO CON DIAGONALES DESLIZANTES */
+        html {
+            height: 100%;
+        }
+
+        .bg {
+            animation: slide 3s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #D71920 50%, #9E0B0F 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: 0.15;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -2;
+        }
+
+        .bg2 {
+            animation-direction: alternate-reverse;
+            animation-duration: 4s;
+        }
+
+        .bg3 {
+            animation-duration: 5s;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+            100% {
+                transform: translateX(25%);
+            }
+        }
+
+        @media (max-aspect-ratio: 9/16) {
+            .container {
+                aspect-ratio: auto;
+                border-radius: 0;
+            }
+
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <div class="container">
+        <!-- PANTALLA DE INICIO -->
+        <div id="startScreen" class="screen active">
+            <div class="logo-header">
+                <img src="Logo Shingrix.png" alt="Shingrix Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            </div>
+            <div class="title">TRIVIA SHINGRIX</div>
+            <div class="subtitle">Demuestra tus conocimientos</div>
+            
+            <form id="nameForm" onsubmit="startTrivia(event)">
+                <div class="form-group">
+                    <label for="userName">Ingresa tu nombre:</label>
+                    <input 
+                        type="text" 
+                        id="userName" 
+                        placeholder="Tu nombre aquí" 
+                        required 
+                        maxlength="30"
+                    >
+                </div>
+                <button type="submit" class="btn btn-start">Comenzar Trivia</button>
+            </form>
+
+            <div class="footer">
+                <strong>Información de seguridad Shingrix.</strong><br><br>
+                <strong>¹</strong> Shingrix está contraindicada en casos de hipersensibilidad a los principios activos o a alguno de los componentes de la vacuna.<br><br>
+                <strong>Reacciones adversas:</strong> Muy frecuentes (≥ 1/10): cefalea, síntomas gastrointestinales (que incluyen náuseas, vómitos, diarrea y/o dolor abdominal), mialgia, reacciones en el lugar de inyección (como dolor, enrojecimiento, hinchazón), fatiga, escalofríos, fiebre. Frecuentes (≥ 1/100 a < 1/10): prurito en el lugar de inyección, malestar general. Como con todas las vacunas inyectables, se deberá disponer en todo momento del tratamiento y supervisión médica adecuados en el caso de aparición de una reacción anafiláctica tras la administración de la vacuna.<br><br>
+                Consulte la información para prescribir local para obtener una descripción completa de las contraindicaciones, los eventos adversos, las interacciones, las advertencias y precauciones especiales asociadas con el uso de Shingrix.<br><br>
+                <strong>Referencia:</strong> 1. Shingrix información para prescribir aprobada por ISP.<br><br>
+                La información completa para prescribir nuestros productos está a su disposición en nuestra página: <a href="http://www.gskpro.com/es-cl" target="_blank">http://www.gskpro.com/es-cl</a><br><br>
+                Más información de nuestros productos se encuentra disponible a través de nuestro Servicio de Información Médica en el correo electrónico: <strong>mila@gsk.com</strong><br><br>
+                Para reportar eventos adversos o quejas de producto por favor tome contacto con GSK por medio de: <strong>Teléfono:</strong> (56-2) 23829000 opción 4 o <strong>E-mail:</strong> <a href="mailto:farmacovigilancia.chile@gsk.com">farmacovigilancia.chile@gsk.com</a><br><br>
+                <strong>Dirección postal:</strong> GlaxoSmithKline Chile Ltda.: Av. Andrés Bello 2457 - Piso 20 (Oficinas 2001, 2003 y 2004), comuna de Providencia, ciudad de Santiago de Chile.<br><br>
+                Material exclusivo para entregar a profesionales de la salud que están habilitados a prescribir y/o dispensar en Chile. Derechos reservados para GSK.<br><br>
+                © 2026 Grupo de Compañías GSK. PM-CL-SGX-QST-260002 | Abril 2026
+            </div>
+        </div>
+
+        <!-- PANTALLA DE TRIVIA -->
+        <div id="triviaScreen" class="screen">
+            <div class="header">
+                <div class="question-number">Pregunta <span id="currentQuestion">1</span>/5</div>
+                <div class="timer" id="timer">⏱ 60s</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="question-text" id="questionText"></div>
+
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <!-- PANTALLA DE RESULTADOS -->
+        <div id="resultScreen" class="screen">
+            <div class="result-header">
+                <h2>¡Trivia Completada!</h2>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="result-message">Tu puntuación:</div>
+                <div class="result-score" id="finalScore">0/5</div>
+            </div>
+
+            <div class="ranking-title">🏆 Ranking</div>
+            <div class="ranking-list" id="rankingList"></div>
+
+            <div class="user-position">
+                <div>Tu posición:</div>
+                <div class="user-position-number" id="userPosition">-</div>
+            </div>
+
+            <button class="btn btn-restart" onclick="restartTrivia()">Intentar de Nuevo</button>
+
+            <div class="result-footer">
+                <strong>Información de seguridad Shingrix.</strong> Shingrix está contraindicada en casos de hipersensibilidad a los principios activos. Reacciones adversas: cefalea, síntomas gastrointestinales, mialgia, reacciones en el lugar de inyección, fatiga, escalofríos, fiebre. Para reportar eventos adversos: farmacovigilancia.chile@gsk.com | © 2026 Grupo de Compañías GSK. PM-CL-SGX-QST-260002
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Cuál es la enfermedad que previene la vacuna SHINGRIX?",
+                options: [
+                    "Varicela",
+                    "Herpes Zóster (Culebrilla)",
+                    "Influenza"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Cuántas dosis de SHINGRIX se recomiendan?",
+                options: [
+                    "Una sola dosis",
+                    "Dos dosis con 2-6 meses de separación",
+                    "Tres dosis en 6 meses"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿A partir de qué edad se recomienda la vacuna SHINGRIX?",
+                options: [
+                    "A los 18 años",
+                    "A los 50 años",
+                    "A los 65 años"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Cuál es la eficacia de SHINGRIX contra el herpes zóster?",
+                options: [
+                    "Aproximadamente 50%",
+                    "Aproximadamente 90%",
+                    "Aproximadamente 70%"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿SHINGRIX es una vacuna de virus vivo o inactivado?",
+                options: [
+                    "Virus vivo atenuado",
+                    "Virus inactivado",
+                    "Subunidad recombinante inactivada"
+                ],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userName = "";
+        let timeLeft = 60;
+        let timerInterval = null;
+        let answers = [];
+
+        function startTrivia(event) {
+            event.preventDefault();
+            userName = document.getElementById("userName").value.trim();
+            
+            if (!userName) {
+                alert("Por favor ingresa tu nombre");
+                return;
+            }
+
+            document.getElementById("startScreen").classList.remove("active");
+            document.getElementById("triviaScreen").classList.add("active");
+            
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            timeLeft = 60;
+            
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    finishTrivia();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById("timer");
+            timerElement.textContent = `⏱ ${timeLeft}s`;
+            
+            if (timeLeft <= 10) {
+                timerElement.classList.add("warning");
+            } else {
+                timerElement.classList.remove("warning");
+            }
+        }
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById("currentQuestion").textContent = currentQuestion + 1;
+            document.getElementById("questionText").textContent = question.question;
+
+            const progressPercentage = (currentQuestion / questions.length) * 100;
+            document.getElementById("progressBar").style.width = progressPercentage + "%";
+
+            const optionsContainer = document.getElementById("optionsContainer");
+            optionsContainer.innerHTML = "";
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.className = "option";
+                button.textContent = option;
+                button.onclick = () => selectOption(index);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(index) {
+            const question = questions[currentQuestion];
+            const options = document.querySelectorAll(".option");
+            
+            options.forEach(opt => opt.disabled = true);
+
+            if (index === question.correct) {
+                options[index].classList.add("correct");
+                score++;
+            } else {
+                options[index].classList.add("incorrect");
+                options[question.correct].classList.add("correct");
+            }
+
+            answers.push(index === question.correct);
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    finishTrivia();
+                }
+            }, 1500);
+        }
+
+        function finishTrivia() {
+            clearInterval(timerInterval);
+            document.getElementById("triviaScreen").classList.remove("active");
+            document.getElementById("resultScreen").classList.add("active");
+
+            saveResult();
+            displayResults();
+        }
+
+        function saveResult() {
+            let ranking = JSON.parse(localStorage.getItem("rankingShingrix")) || [];
+            
+            ranking.push({
+                name: userName,
+                score: score,
+                date: new Date().toLocaleDateString()
+            });
+
+            ranking.sort((a, b) => b.score - a.score);
+            localStorage.setItem("rankingShingrix", JSON.stringify(ranking));
+        }
+
+        function displayResults() {
+            document.getElementById("finalScore").textContent = `${score}/5`;
+
+            const ranking = JSON.parse(localStorage.getItem("rankingShingrix")) || [];
+            const rankingList = document.getElementById("rankingList");
+            rankingList.innerHTML = "";
+
+            let userPosition = 0;
+            ranking.forEach((entry, index) => {
+                const div = document.createElement("div");
+                div.className = "ranking-item";
+                
+                if (entry.name === userName) {
+                    div.classList.add("highlight");
+                    userPosition = index + 1;
+                }
+
+                div.innerHTML = `
+                    <span class="ranking-position">#${index + 1}</span>
+                    <span class="ranking-name">${entry.name}</span>
+                    <span class="ranking-score">${entry.score}/5</span>
+                `;
+
+                rankingList.appendChild(div);
+            });
+
+            document.getElementById("userPosition").textContent = `#${userPosition}`;
+        }
+
+        function restartTrivia() {
+            currentQuestion = 0;
+            score = 0;
+            timeLeft = 60;
+            document.getElementById("resultScreen").classList.remove("active");
+            document.getElementById("startScreen").classList.add("active");
+            document.getElementById("userName").value = "";
+            document.getElementById("userName").focus();
+        }
+    </script>
+</body>
+</html>
