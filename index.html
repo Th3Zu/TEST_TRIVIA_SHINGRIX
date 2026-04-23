@@ -70,12 +70,12 @@
             width: 300px !important;
             height: 100px !important;
             margin: 0 auto 20px;
-            background: rgba(46, 45, 45, 0.95)!important;
+            background: rgba(255, 255, 255, 0.95)!important;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 32px;    
             font-weight: bold;
             color: #D71920;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -552,7 +552,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 15px;
+            padding: 0px;
             font-size: 32px;
             font-weight: bold;
             color: #D71920;
@@ -568,7 +568,7 @@
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             text-align: justify;
-            max-height: 180px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
@@ -590,7 +590,7 @@
             background: rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             margin-top: 15px;
-            max-height: 120px;
+            max-height: 200px;
             overflow-y: auto;
             text-align: justify;
         }
@@ -844,6 +844,71 @@
             transform: scale(1.05);
         }
 
+        /* POPUP DE COMUNIDAD GSK */
+        .community-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .community-popup-overlay.active {
+            display: flex;
+        }
+
+        .community-popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            text-align: center;
+        }
+
+        .community-popup-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .community-popup-qr {
+            margin: 25px 0;
+        }
+
+        .community-popup-qr img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .community-popup-close {
+            background: #D71920;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .community-popup-close:hover {
+            background: #9E0B0F;
+            transform: scale(1.05);
+        }
+
         @media (max-aspect-ratio: 9/16) {
             .container {
                 aspect-ratio: auto;
@@ -968,6 +1033,17 @@
             <div class="options" id="optionsContainer"></div>
         </div>
 
+        <!-- POPUP DE COMUNIDAD GSK -->
+        <div id="communityPopup" class="community-popup-overlay">
+            <div class="community-popup-content">
+                <div class="community-popup-title">Únase a la comunidad de Vacunas de GSK</div>
+                <div class="community-popup-qr">
+                    <img src="qr2.png" alt="QR Code">
+                </div>
+                <button class="community-popup-close" onclick="closeCommunityPopup()">Cerrar</button>
+            </div>
+        </div>
+
         <!-- PANTALLA DE RESULTADOS -->
         <div id="resultScreen" class="screen">
             <div class="result-header">
@@ -993,7 +1069,17 @@
             <button class="btn btn-restart" onclick="restartTrivia()">Intentar de Nuevo</button>
 
             <div class="result-footer">
-                <strong>Información de seguridad Shingrix.</strong> Shingrix está contraindicada en casos de hipersensibilidad a los principios activos. Reacciones adversas: cefalea, síntomas gastrointestinales, mialgia, reacciones en el lugar de inyección, fatiga, escalofríos, fiebre. Para reportar eventos adversos: farmacovigilancia.chile@gsk.com | © 2026 Grupo de Compañías GSK. PM-CL-SGX-QST-260002
+                <strong>Información de seguridad Shingrix.</strong><br><br>
+                <strong>¹</strong> Shingrix está contraindicada en casos de hipersensibilidad a los principios activos o a alguno de los componentes de la vacuna.<br><br>
+                <strong>Reacciones adversas:</strong> Muy frecuentes (≥ 1/10): cefalea, síntomas gastrointestinales (que incluyen náuseas, vómitos, diarrea y/o dolor abdominal), mialgia, reacciones en el lugar de inyección (como dolor, enrojecimiento, hinchazón), fatiga, escalofríos, fiebre. Frecuentes (≥ 1/100 a < 1/10): prurito en el lugar de inyección, malestar general. Como con todas las vacunas inyectables, se deberá disponer en todo momento del tratamiento y supervisión médica adecuados en el caso de aparición de una reacción anafiláctica tras la administración de la vacuna.<br><br>
+                Consulte la información para prescribir local para obtener una descripción completa de las contraindicaciones, los eventos adversos, las interacciones, las advertencias y precauciones especiales asociadas con el uso de Shingrix.<br><br>
+                <strong>Referencia:</strong> 1. Shingrix información para prescribir aprobada por ISP.<br><br>
+                La información completa para prescribir nuestros productos está a su disposición en nuestra página: <a href="http://www.gskpro.com/es-cl" target="_blank">http://www.gskpro.com/es-cl</a><br><br>
+                Más información de nuestros productos se encuentra disponible a través de nuestro Servicio de Información Médica en el correo electrónico: <strong>mila@gsk.com</strong><br><br>
+                Para reportar eventos adversos o quejas de producto por favor tome contacto con GSK por medio de: <strong>Teléfono:</strong> (56-2) 23829000 opción 4 o <strong>E-mail:</strong> <a href="mailto:farmacovigilancia.chile@gsk.com">farmacovigilancia.chile@gsk.com</a><br><br>
+                <strong>Dirección postal:</strong> GlaxoSmithKline Chile Ltda.: Av. Andrés Bello 2457 - Piso 20 (Oficinas 2001, 2003 y 2004), comuna de Providencia, ciudad de Santiago de Chile.<br><br>
+                Material exclusivo para entregar a profesionales de la salud que están habilitados a prescribir y/o dispensar en Chile. Derechos reservados para GSK.<br><br>
+                © 2026 Grupo de Compañías GSK. PM-CL-SGX-QST-260002 | Abril 2026
             </div>
         </div>
     </div>
@@ -1182,7 +1268,7 @@
                 modalHeader.classList.add("incorrect");
             }
             
-            document.getElementById("modalTitle").textContent = "Explicación";
+            document.getElementById("modalTitle").textContent = isCorrect ? "Respuesta Correcta" : "Respuesta Incorrecta";
             document.getElementById("modalExplanation").textContent = question.explanation;
             document.getElementById("modalReference").innerHTML = `<strong>Referencia:</strong> ${question.reference}`;
             document.getElementById("explanationModal").classList.add("active");
@@ -1214,6 +1300,11 @@
 
             saveResult();
             displayResults();
+
+            // Mostrar popup de comunidad GSK después de 5 segundos
+            setTimeout(() => {
+                document.getElementById("communityPopup").classList.add("active");
+            }, 5000);
         }
 
         function saveResult() {
@@ -1263,9 +1354,14 @@
             score = 0;
             timeLeft = 60;
             document.getElementById("resultScreen").classList.remove("active");
+            document.getElementById("communityPopup").classList.remove("active");
             document.getElementById("startScreen").classList.add("active");
             document.getElementById("userName").value = "";
             document.getElementById("userName").focus();
+        }
+
+        function closeCommunityPopup() {
+            document.getElementById("communityPopup").classList.remove("active");
         }
 
         // ====================== PARTICLES BACKGROUND SYSTEM ======================
