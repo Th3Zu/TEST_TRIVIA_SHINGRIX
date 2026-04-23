@@ -704,6 +704,146 @@
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
         }
 
+        /* MODAL DE EXPLICACIÓN */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            border-top: 5px solid #D71920;
+        }
+
+        .modal-content.correct {
+            border-top-color: #51cf66;
+        }
+
+        .modal-content.incorrect {
+            border-top-color: #ff6b6b;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #D71920;
+            padding-bottom: 15px;
+        }
+
+        .modal-header.correct {
+            border-bottom-color: #51cf66;
+        }
+
+        .modal-header.incorrect {
+            border-bottom-color: #ff6b6b;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #D71920;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-explanation {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-reference {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #D71920;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-continue {
+            background: #D71920;
+            color: white;
+        }
+
+        .modal-btn-continue:hover {
+            background: #9E0B0F;
+            transform: scale(1.05);
+        }
+
         @media (max-aspect-ratio: 9/16) {
             .container {
                 aspect-ratio: auto;
@@ -750,6 +890,23 @@
         </label>
     </div>
     <div class="container">
+        <!-- MODAL DE EXPLICACIÓN -->
+        <div id="explanationModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="modalTitle">Explicación</div>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-explanation" id="modalExplanation"></div>
+                    <div class="modal-reference" id="modalReference"></div>
+                </div>
+                <div class="modal-buttons">
+                    <button class="modal-btn modal-btn-continue" onclick="continueToNext()">Continuar</button>
+                </div>
+            </div>
+        </div>
+
         <!-- PANTALLA DE INICIO -->
         <div id="startScreen" class="screen active">
             <div class="logo-header">
@@ -845,7 +1002,9 @@
                     "Herpesvirus humano",
                     "Citomegalovirus"
                 ],
-                correct: 0
+                correct: 0,
+                explanation: "El Herpes Zóster es causado por el virus de la varicela zóster que causa varicela en la niñez.",
+                reference: "CDC; 2023; 1; Shingles (Herpes Zóster); Cause and transmission"
             },
             {
                 question: "¿Qué causa la reactivación del Virus Varicela Zóster (VVZ)?",
@@ -854,7 +1013,9 @@
                     "Deterioro o disminución de la inmunidad",
                     "Co-infección con otro virus"
                 ],
-                correct: 1
+                correct: 1,
+                explanation: "La disminución en la inmunidad celular específica frente al VVZ es la principal razón para la reactivación del VVZ y esto puede ser una consecuencia del envejecimiento (debido a la inmunosenescencia), o de enfermedades o tratamientos inmunosupresores.",
+                reference: "1. Kimberlin DW, Whitley RJ. Varicella-zoster vaccine for the prevention of herpes zoster. N Engl J Med. 2007:356;1338-1343 2. Centers for Disease Control and Prevention. Prevention of herpes zoster: recommendations of the Advisory Committee on Immunization Practices (ACIP). MMWR. 2008 May;57(RR-5):1-30 3. Marra F, Parhar K, Huang B, Vadlamudi N. Risk factors for herpes zoster infection: a meta-analysis. Open Forum Infect Dis. 2020 Jan;7(1):ofaa005. 4. McKay SL, Guo A, Pergam SA, Dooling K. Herpes zoster risk in immunocompromised adults in the United States: A systematic review. Clin Infect Dis. 2019 Nov;ciz10"
             },
             {
                 question: "¿Cuál es la complicación más común del Herpes Zóster?",
@@ -863,7 +1024,9 @@
                     "Herpes Zóster oftálmico",
                     "Neuralgia post herpética (NPH)"
                 ],
-                correct: 2
+                correct: 2,
+                explanation: "La neuralgia post herpética (NPH) es la complicación más común del Herpes Zóster. NPH se puede definir como un dolor persistente 3 meses después de la resolución del cuadro agudo por herpes zóster.",
+                reference: "1. Dworkin RH, Johnson RW, Breuer J, Gnann JW, Levin MJ, Backonja M, et al. Recommendations for the management of herpes zoster. Clin Infect Dis. 2007 Jan;44(suppl 1):S1-26. 2. Kawai K, Gebremeskel BG, Acosta CJ. Systematic review of incidence and complications of herpes zoster: towards a global perspective. BMJ Open. 2014 Jun;4(6):e004833"
             },
             {
                 question: "Entre las personas de 50 años o más, ¿Cuántas son portadoras o han estado expuestas al virus de la varicela zóster?",
@@ -872,7 +1035,9 @@
                     "89%",
                     ">90%"
                 ],
-                correct: 2
+                correct: 2,
+                explanation: "A nivel mundial, más del 90% de las personas de 50 años o más son portadoras o han estado expuestas al virus de la varicela-zóster.",
+                reference: "Pan CX; Ther Adv Vaccines Immunother; 2022; 10; 1-19"
             },
             {
                 question: "¿Cuáles son las probabilidades de que un evento de Herpes Zóster termine en neuralgia post herpética (NPH)?",
@@ -881,7 +1046,9 @@
                     "Hasta un 30%",
                     "Hasta un 50%"
                 ],
-                correct: 1
+                correct: 1,
+                explanation: "Hasta un 30% de los pacientes con HZ puede desarrollar neuralgia post herpética (NPH)",
+                reference: "Kawai K et al. BMJ Open 2014; 4: e004833"
             },
             {
                 question: "¿Cuáles son las probabilidades de que una persona desarrolle Herpes Zóster oftálmico (HZO)?",
@@ -890,7 +1057,9 @@
                     "Hasta un 15%",
                     "Hasta un 25%"
                 ],
-                correct: 2
+                correct: 2,
+                explanation: "El Herpes Zóster oftálmico (HZO) puede afectar hasta un 25% de los pacientes con herpes zóster.",
+                reference: "Harpaz R, et al. MMWR Recomm Rep 2008;57:1-30"
             }
         ];
 
@@ -900,6 +1069,7 @@
         let timeLeft = 60;
         let timerInterval = null;
         let answers = [];
+        let isShowingModal = false;
 
         function startTrivia(event) {
             event.preventDefault();
@@ -977,24 +1147,6 @@
                 options[index].classList.add("correct");
                 options[index].classList.add("shake");
                 score++;
-                
-                // Feedback visual con partículas
-                const fadeSlider = document.getElementById("fadeSlider");
-                const darkSpeedSlider = document.getElementById("darkSpeed");
-                const originalFade = fadeSlider.value;
-                const originalDarkSpeed = darkSpeedSlider.value;
-
-                // Cambiar valores para efecto visual
-                fadeSlider.value = 45; // Bajar trail fade
-                darkSpeedSlider.value = 5.5; // Subir dark speed
-                document.getElementById("darkSpeedVal").textContent = "5.5";
-
-                // Restaurar valores después de 1500ms
-                setTimeout(() => {
-                    fadeSlider.value = originalFade;
-                    darkSpeedSlider.value = originalDarkSpeed;
-                    document.getElementById("darkSpeedVal").textContent = parseFloat(originalDarkSpeed).toFixed(1);
-                }, 1500);
             } else {
                 options[index].classList.add("incorrect");
                 options[question.correct].classList.add("correct");
@@ -1002,7 +1154,43 @@
             }
 
             answers.push(isCorrect);
+            isShowingModal = true;
 
+            // Mostrar modal con explicación
+            showExplanationModal(question, isCorrect);
+        }
+
+        function showExplanationModal(question, isCorrect) {
+            const modalContent = document.querySelector(".modal-content");
+            const modalHeader = document.querySelector(".modal-header");
+            
+            // Limpiar clases anteriores
+            modalContent.classList.remove("correct", "incorrect");
+            modalHeader.classList.remove("correct", "incorrect");
+            
+            // Agregar clase según si es correcta
+            if (isCorrect) {
+                modalContent.classList.add("correct");
+                modalHeader.classList.add("correct");
+            } else {
+                modalContent.classList.add("incorrect");
+                modalHeader.classList.add("incorrect");
+            }
+            
+            document.getElementById("modalTitle").textContent = "Explicación";
+            document.getElementById("modalExplanation").textContent = question.explanation;
+            document.getElementById("modalReference").innerHTML = `<strong>Referencia:</strong> ${question.reference}`;
+            document.getElementById("explanationModal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("explanationModal").classList.remove("active");
+            isShowingModal = false;
+        }
+
+        function continueToNext() {
+            closeModal();
+            
             setTimeout(() => {
                 currentQuestion++;
                 if (currentQuestion < questions.length) {
@@ -1010,7 +1198,7 @@
                 } else {
                     finishTrivia();
                 }
-            }, 1500);
+            }, 300);
         }
 
 
