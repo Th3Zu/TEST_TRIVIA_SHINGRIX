@@ -21,12 +21,12 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: calc(100% - 40px);
             aspect-ratio: 1080 / 1920;
             background: white;
             border-radius: 20px;
@@ -88,7 +88,7 @@
             margin-bottom: 40px;
             font-weight: bold;
             position: relative;
-            color: rgb(255, 255, 255);
+            color: rgb(255, 255, 255);z
             animation: glitch 5s 5s infinite;
         }
 
@@ -601,7 +601,7 @@
         }
 
         canvas {
-            display: block;
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -866,8 +866,8 @@
         .community-popup-content {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 400px;
+            padding: 20px 20px;
+            max-width: 700px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease;
             text-align: center;
@@ -886,7 +886,7 @@
         }
 
         .community-popup-qr img {
-            max-width: 150px;
+            max-width: 500px;
             height: auto;
         }
 
@@ -1021,7 +1021,7 @@
         <div id="triviaScreen" class="screen">
             <div class="header">
                 <div class="question-number">Pregunta <span id="currentQuestion">1</span>/6</div>
-                <div class="timer" id="timer">⏱ 60s</div>
+                <div class="timer" id="timer">⏱ 90s</div>
             </div>
 
             <div class="progress-bar">
@@ -1036,7 +1036,7 @@
         <!-- POPUP DE COMUNIDAD GSK -->
         <div id="communityPopup" class="community-popup-overlay">
             <div class="community-popup-content">
-                <div class="community-popup-title">Únase a la comunidad de Vacunas de GSK</div>
+                <div class="community-popup-title"></div>
                 <div class="community-popup-qr">
                     <img src="qr2.png" alt="QR Code">
                 </div>
@@ -1157,7 +1157,7 @@
         let currentQuestion = 0;
         let score = 0;
         let userName = "";
-        let timeLeft = 60;
+        let timeLeft = 90;
         let timerInterval = null;
         let answers = [];
         let isShowingModal = false;
@@ -1177,7 +1177,7 @@
             currentQuestion = 0;
             score = 0;
             answers = [];
-            timeLeft = 60;
+            timeLeft = 90;
             
             startTimer();
             loadQuestion();
